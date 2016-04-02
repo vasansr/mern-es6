@@ -2,7 +2,6 @@
 
 import React from 'react'
 import {Link} from 'react-router'
-import $ from 'jquery'
 
 import {Panel, Input, Button, ButtonToolbar, Alert} from 'react-bootstrap'
 
@@ -70,11 +69,15 @@ export default class BugEdit extends React.Component {
   }
 
   loadData() {
-    $.ajax('/api/bugs/' + this.props.params.id) .done(function(bug) {
-      this.setState(bug)
-    }.bind(this))
+    fetch('/api/bugs/' + this.props.params.id).then((response) => {
+      return response.json()
+    }).then((bug) => {
+      this.setState(bug)    // all the attributes of the bug are top level state items
+    })
   }
 
+  // todo: use common function for the onChange
+  // todo: react-addons/update or other immutability helpers.
   onChangePriority(e) {
     this.setState({priority: e.target.value})
   }
@@ -104,15 +107,15 @@ export default class BugEdit extends React.Component {
       title: this.state.title
     }
 
-    $.ajax({
-      url: '/api/bugs/' + this.props.params.id, type: 'PUT', contentType:'application/json',
-      data: JSON.stringify(bug),
-      dataType: 'json',
-      success: function(bug) {
-        this.setState(bug)
-        this.showSuccess()
-      }.bind(this),
-    })
+    fetch('/api/bugs/' + this.props.params.id, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(bug)
+
+    }).then(response => response.json()).then(bug => {
+      this.setState(bug);
+      this.showSuccess();
+    });
   }
 }
 

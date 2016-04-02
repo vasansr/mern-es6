@@ -2,7 +2,6 @@
 
 import React from 'react'
 import {Link} from 'react-router'
-import $ from 'jquery'
 
 import BugFilter from './BugFilter.jsx'
 import BugAdd from './BugAdd.jsx'
@@ -56,6 +55,12 @@ export default class BugList extends React.Component {
      * already bound methods */
   }
 
+  /*
+   * In ES6, static members can only be functions. What we're doing here is to define
+   * an accessor, so that it appears as a member to its callers.
+   */
+  static get contextTypes() { return {router: React.PropTypes.object.isRequired} }
+
   render() {
     console.log("Rendering BugList, num items:", this.state.bugs.length)
     return (
@@ -96,42 +101,51 @@ export default class BugList extends React.Component {
   }
 
   changeFilter(newFilter) {
-    console.log("History.push", newFilter);
-    /* 
+    /*
      * 1.x of react-router does not support context.router. We'll need to do it
      * this way if we're using an earlier version of the react-router:
      *   this.props.history.push({search: '?' + $.param(newFilter)})
      */
-    this.context.router.push({search: '?' + $.param(newFilter)})
+
+    // jQuery.param would have done this in one line for us.
+    let search = Object.keys(newFilter)
+    .filter(k => (newFilter[k]!=''))
+    .map(k => (encodeURIComponent(k) + "=" + encodeURIComponent(newFilter[k])))
+    .join('&')
+
+    this.context.router.push({search: '?' + search})
+    //this.context.router.push({search: '?' + $.param(newFilter)})
   }
 
   addBug(bug) {
     console.log("Adding bug:", bug)
-    $.ajax({
-      type: 'POST', url: '/api/bugs', contentType: 'application/json',
-      data: JSON.stringify(bug),
-      success: function(data) {
-        let bug = data
-        /*
-         * We should not to modify the state, it's immutable. So, we make a copy.
-         * A deep copy is not required, since we are not modifying any bug. We are
-         * only appending to the array, but we can't do a 'push'. If we do that,
-         * any method referring to the current state will get wrong data.
-         */
-        let bugsModified = this.state.bugs.concat(bug)
-        this.setState({bugs: bugsModified})
-      }.bind(this),
 
-      error: function(xhr, status, err) {
-        // ideally, show error to user.
-        console.log("Error adding bug:", err)
-      }
-    })
+    fetch('/api/bugs', {
+      method: 'POST',
+      headers: { "Content-Type": 'application/json' },
+      body: JSON.stringify(bug)
+
+    }).then(res => (res.json())).then(bug => {
+      /*
+       * We should not modify the state, it's immutable. So, we make a copy.
+       * A deep copy is not required, since we are not modifying any bug. We are
+       * only appending to the array, but we can't do a 'push'. If we do that,
+       * any method referring to the current state will get wrong data.
+       */
+      let bugsModified = this.state.bugs.concat(bug)
+      this.setState({bugs: bugsModified})
+
+    }).catch(err => {
+      // ideally, show error to user.
+      console.log("Error adding bug:", err)
+    });
   }
-
 }
 
+/*
+ * This is another way to define static properties instead of an accessor.
 BugList.contextTypes = {
    router: React.PropTypes.object.isRequired
 }
+*/
 

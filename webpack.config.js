@@ -4,7 +4,7 @@ var webpack = require('webpack');
 module.exports = {
   entry: {
     app: './src/App.jsx',
-    vendor: ['react','react-dom','react-router','jquery','react-bootstrap'],
+    vendor: ['react','react-dom','react-router','react-bootstrap'],
   },
   output: {
     path: path.resolve(__dirname, 'static'),

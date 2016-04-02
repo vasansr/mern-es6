@@ -1,0 +1,45 @@
+{
+  "name": "mern-es6",
+  "version": "1.0.0",
+  "description": "React Tutorial using MERN stack - ES6/Webpack variation",
+  "main": "webapp.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "webapp.js",
+    "webpack": "webpack",
+    "webpack-watch": "webpack --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vasansr/react-tutorial-mern.git"
+  },
+  "keywords": [
+    "react",
+    "tutorial",
+    "MERN",
+    "ES6"
+  ],
+  "author": "Vasan Subramanian",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vasansr/mern-es6/issues"
+  },
+  "homepage": "https://github.com/vasansr/mern-es6#readme",
+  "dependencies": {
+    "body-parser": "^1.15.0",
+    "bootstrap": "^3.3.6",
+    "express": "^4.13.4",
+    "mongodb": "^2.1.14",
+    "webpack": "^1.12.14"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.6.5",
+    "babel-core": "^6.7.4",
+    "babel-loader": "^6.2.4",
+    "babel-preset-es2015": "^6.6.0",
+    "babel-preset-react": "^6.5.0",
+    "jquery": "^2.2.2",
+    "react-bootstrap": "^0.28.4",
+    "react-router": "^2.0.1"
+  }
+}

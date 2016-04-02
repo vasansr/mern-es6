@@ -27,8 +27,9 @@ export default class BugAdd extends React.Component {
   handleSubmit(e) {
     console.log("Got submit:", e)
     e.preventDefault()
-    // todo: change this to Input.getInputDOMNode()
     // This can't be a stateless since we'll need a ref for inputDomNode
+    // Can't do getInputDOMNode using a ref, because there's no way to set the value
+    // That's why one should prefer controlled forms.
     var form = document.forms.bugAdd
     this.props.addBug({owner: form.owner.value, title: form.title.value,
                       status: 'New', priority: 'P1'})

@@ -1,6 +1,7 @@
 'use strict'
 
 import React from 'react'
+import update from 'react-addons-update';
 import {Link} from 'react-router'
 
 import BugFilter from './BugFilter.jsx'
@@ -148,8 +149,15 @@ export default class BugList extends React.Component {
        * In essence, the current state should show the old list of bugs, but the
        * new state should show the new list.
        */
-      let bugsModified = this.state.bugs.concat(bug);
-      this.setState({bugs: bugsModified});
+      //let modifiedBugs = this.state.bugs.concat(bug);
+      /*
+       * Earlier, we were supposed to use import react/addons, which is now deprecated
+       * in favour of using import react-addons-{addon}, since this is more efficient
+       * for bundlers such as browserify and webpack, even though the code mostly resides
+       * within the react npm itself.
+       */
+      let modifiedBugs = update(this.state.bugs, {$push: [bug]});
+      this.setState({bugs: modifiedBugs});
 
     }).catch(err => {
       // ideally, show error to user also.

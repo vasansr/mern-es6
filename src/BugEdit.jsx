@@ -1,7 +1,8 @@
 'use strict'
 
-import React from 'react'
-import {Link} from 'react-router'
+import React from 'react';
+import Update from 'react-addons-update';
+import {Link} from 'react-router';
 
 import {Panel, Input, Button, ButtonToolbar, Alert} from 'react-bootstrap'
 
@@ -73,16 +74,27 @@ export default class BugEdit extends React.Component {
     })
   }
 
-  // todo: react-addons/update or other immutability helpers, to deal with
-  // nested objects / arrays.
   onChange(e) {
-    // Since state is immutable, we need a copy. If we modify this.state.bug itself and
-    // set it as the new state, It will seem to work, but you'll
-    // run into problems later, especially when comparing current and new state
-    // within Lifecycle methods.
-    var bug = Object.assign({}, this.state.bug);
-    bug[e.target.name] = e.target.value;
-    this.setState({bug: bug})
+    /*
+     * Since state is immutable, we need a copy. If we modify this.state.bug itself and
+     * set it as the new state, It will seem to work, but we'll
+     * run into problems later, especially when comparing current and new state
+     * within Lifecycle methods.
+     */
+    var changes = {};
+    changes[e.target.name] = {$set: e.target.value};
+    var modifiedBug = Update(this.state.bug, changes);
+    /*
+     * Without react-addons-update, this is how it could have been achieved:
+     *
+    var modifiedBug = Object.assign({}, this.state.bug);
+    modifiedBug[e.target.name] = e.target.value;
+     *
+     * This works, but it doesn't scale well to deeply nested fields within the document.
+     *
+    */
+
+    this.setState({bug: modifiedBug})
   }
 
   submit(e) {

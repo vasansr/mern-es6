@@ -46,10 +46,14 @@ app.get('/api/bugs/:id', function(req, res) {
 /* Modify one record, given its ID */
 app.put('/api/bugs/:id', function(req, res) {
   var bug = req.body;
+  // ensure we don't modify the _id itself, it's disallowed.
+  delete (bug._id);
   console.log("Modifying bug:", req.params.id, bug);
   var oid = ObjectId(req.params.id);
   db.collection("bugs").updateOne({_id: oid}, bug, function(err, result) {
+    if (err) console.log(err);
     db.collection("bugs").find({_id: oid}).next(function(err, doc) {
+      if (err) console.log(err);
       res.send(doc);
     });
   });

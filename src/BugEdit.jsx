@@ -17,22 +17,22 @@ export default class BugEdit extends React.Component {
       <div style={{maxWidth: 600}}>
         <Panel header={"Edit bug: " + this.props.params.id}>
           <form onSubmit={this.submit}>
-            <Input type="select" label="Priority"
-              value={this.state.priority} onChange={this.onChangePriority}>
+            <Input type="select" name="priority" label="Priority"
+              value={this.state.priority} onChange={this.onChange}>
               <option value="P1">P1</option>
               <option value="P2">P2</option>
               <option value="P3">P3</option>
             </Input>
-            <Input type="select" label="Status" value={this.state.status}
-              onChange={this.onChangeStatus}>
+            <Input type="select" name="status" label="Status" value={this.state.status}
+              onChange={this.onChange}>
               <option>New</option>
               <option>Open</option>
               <option>Closed</option>
             </Input>
-            <Input type="text" label="Title" value={this.state.title}
-              onChange={this.onChangeTitle}/>
-            <Input type="text" label="Owner" value={this.state.owner}
-              onChange={this.onChangeOwner}/>
+            <Input type="text" name="title" label="Title" value={this.state.title}
+              onChange={this.onChange}/>
+            <Input type="text" name="owner" label="Owner" value={this.state.owner}
+              onChange={this.onChange}/>
             <ButtonToolbar>
               <Button type="submit" bsStyle="primary">Submit</Button>
               <Link className="btn btn-link" to="/bugs">Back</Link>
@@ -47,10 +47,7 @@ export default class BugEdit extends React.Component {
   constructor(props) {
     super(props)
     this.submit = this.submit.bind(this)
-    this.onChangePriority = this.onChangePriority.bind(this)
-    this.onChangeStatus = this.onChangeStatus.bind(this)
-    this.onChangeTitle = this.onChangeTitle.bind(this)
-    this.onChangeOwner = this.onChangeOwner.bind(this)
+    this.onChange = this.onChange.bind(this)
     this.showSuccess = this.showSuccess.bind(this)
     this.dismissSuccess = this.dismissSuccess.bind(this)
 
@@ -76,19 +73,11 @@ export default class BugEdit extends React.Component {
     })
   }
 
-  // todo: use common function for the onChange
   // todo: react-addons/update or other immutability helpers.
-  onChangePriority(e) {
-    this.setState({priority: e.target.value})
-  }
-  onChangeStatus(e) {
-    this.setState({status: e.target.value})
-  }
-  onChangeOwner(e) {
-    this.setState({owner: e.target.value})
-  }
-  onChangeTitle(e) {
-    this.setState({title: e.target.value})
+  onChange(e) {
+    var item = {};
+    item[e.target.name] = e.target.value;
+    this.setState(item)
   }
 
   showSuccess() {
@@ -100,6 +89,7 @@ export default class BugEdit extends React.Component {
 
   submit(e) {
     e.preventDefault()
+    // todo: separate bug into a sub-object, use Object.assign and babel-plugin-object-assign
     var bug = {
       status: this.state.status,
       priority: this.state.priority,

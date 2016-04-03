@@ -9,7 +9,8 @@ export default class BugEdit extends React.Component {
 
   render() {
     let success = (
-      <Alert bsStyle="success" onDismiss={this.dismissSuccess} dismissAfter={5000}>
+      <Alert bsStyle="success" onDismiss={() => {this.setState({successVisible: false})}}
+        dismissAfter={5000}>
         Bug saved to DB successfully.
       </Alert>
     )
@@ -49,8 +50,6 @@ export default class BugEdit extends React.Component {
     super(props)
     this.submit = this.submit.bind(this)
     this.onChange = this.onChange.bind(this)
-    this.showSuccess = this.showSuccess.bind(this)
-    this.dismissSuccess = this.dismissSuccess.bind(this)
 
     this.state = {successVisible: false, bug: {}}
   }
@@ -86,14 +85,6 @@ export default class BugEdit extends React.Component {
     this.setState({bug: bug})
   }
 
-  // todo: use arrow functions in the jsx and remove these
-  showSuccess() {
-    this.setState({successVisible: true})
-  }
-  dismissSuccess() {
-    this.setState({successVisible: false})
-  }
-
   submit(e) {
     e.preventDefault()
     var bug = this.state.bug;
@@ -105,7 +96,7 @@ export default class BugEdit extends React.Component {
 
     }).then(response => response.json()).then(bug => {
       this.setState(bug);
-      this.showSuccess();
+      this.setState({successVisible: true});
     });
   }
 }

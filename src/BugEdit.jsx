@@ -96,7 +96,6 @@ export default class BugEdit extends React.Component {
 
   submit(e) {
     e.preventDefault()
-    // todo: separate bug into a sub-object, use Object.assign and babel-plugin-object-assign
     var bug = this.state.bug;
 
     fetch('/api/bugs/' + this.props.params.id, {

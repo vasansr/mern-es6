@@ -1,19 +1,13 @@
 'use strict'
 
-import React from 'react'
-import ReactDOM from 'react-dom'
-import {Router, Route, Redirect, hashHistory} from 'react-router'
+import React from 'react';
+import ReactDOM from 'react-dom';
+import {Router, Route, Redirect, hashHistory} from 'react-router';
 
-import BugList from './BugList.jsx'
-import BugEdit from './BugEdit.jsx'
+import BugList from './BugList.jsx';
+import BugEdit from './BugEdit.jsx';
 
-class NoMatch extends React.Component {
-  render() {
-    return (
-      <h2>No match to the route</h2>
-    )
-  }
-}
+const NoMatch = () => <h2>No match to the route</h2>;
 
 ReactDOM.render (
   (

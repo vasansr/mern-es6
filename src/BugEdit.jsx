@@ -66,9 +66,9 @@ export default class BugEdit extends React.Component {
   }
 
   loadData() {
-    fetch('/api/bugs/' + this.props.params.id).then((response) => {
+    fetch('/api/bugs/' + this.props.params.id).then(response => {
       return response.json()
-    }).then((bug) => {
+    }).then(bug => {
       this.setState({bug: bug})    // all the attributes of the bug are top level state items
     })
   }
@@ -95,7 +95,7 @@ export default class BugEdit extends React.Component {
       body: JSON.stringify(bug)
 
     }).then(response => response.json()).then(bug => {
-      this.setState(bug);
+      this.setState({bug: bug});
       this.setState({successVisible: true});
     });
   }

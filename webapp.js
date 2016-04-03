@@ -8,7 +8,9 @@ var db;
 
 app.use(express.static('static'));
 
-/* Get a list of filtered records */
+/* 
+ * Get a list of filtered records
+ */
 app.get('/api/bugs', function(req, res) {
   console.log("Query string", req.query);
   var filter = {};
@@ -24,29 +26,38 @@ app.get('/api/bugs', function(req, res) {
 
 app.use(bodyParser.json());
 
-/* Insert a record */
+/*
+ * Insert a record
+ */
 app.post('/api/bugs/', function(req, res) {
   console.log("Req body:", req.body);
   var newBug = req.body;
   db.collection("bugs").insertOne(newBug, function(err, result) {
+    if (err) console.log(err);
     var newId = result.insertedId;
     db.collection("bugs").find({_id: newId}).next(function(err, doc) {
+      if (err) console.log(err);
       res.json(doc);
     });
   });
 });
 
-/* Get a single record */
+/*
+ * Get a single record
+ */
 app.get('/api/bugs/:id', function(req, res) {
   db.collection("bugs").findOne({_id: ObjectId(req.params.id)}, function(err, bug) {
     res.json(bug);
   });
 });
 
-/* Modify one record, given its ID */
+/*
+ * Modify one record, given its ID
+ */
 app.put('/api/bugs/:id', function(req, res) {
   var bug = req.body;
-  // ensure we don't modify the _id itself, it's disallowed.
+  // ensure we don't have the _id itself as a field, it's disallowed to modfiy the
+  // _id.
   delete (bug._id);
   console.log("Modifying bug:", req.params.id, bug);
   var oid = ObjectId(req.params.id);

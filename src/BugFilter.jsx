@@ -40,14 +40,14 @@ export default class BugFilter extends React.Component {
   }
 
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       status: this.props.initFilter.status,
       priority: this.props.initFilter.priority
-    }
-    this.submit = this.submit.bind(this)
-    this.onChangeStatus = this.onChangeStatus.bind(this)
-    this.onChangePriority = this.onChangePriority.bind(this)
+    };
+    this.submit = this.submit.bind(this);
+    this.onChangeStatus = this.onChangeStatus.bind(this);
+    this.onChangePriority = this.onChangePriority.bind(this);
   }
 
   componentWillReceiveProps(newProps) {
@@ -57,7 +57,7 @@ export default class BugFilter extends React.Component {
       return;
     }
     console.log("BugFilter: componentWillReceiveProps, new filter:", newProps.initFilter);
-    this.setState({status: newProps.initFilter.status, priority: newProps.initFilter.priority})
+    this.setState({status: newProps.initFilter.status, priority: newProps.initFilter.priority});
   }
 
   onChangeStatus(e) {
@@ -71,9 +71,9 @@ export default class BugFilter extends React.Component {
   submit(e) {
     e.preventDefault()
     var newFilter = {}
-    if (this.state.priority) newFilter.priority = this.state.priority
-    if (this.state.status) newFilter.status = this.state.status
-    this.props.submitHandler(newFilter)
+    if (this.state.priority) newFilter.priority = this.state.priority;
+    if (this.state.status) newFilter.status = this.state.status;
+    this.props.submitHandler(newFilter);
   }
 
 }

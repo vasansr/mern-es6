@@ -4,15 +4,18 @@ import React from 'react'
 
 import {Panel,Input,ButtonInput} from  'react-bootstrap'
 
+/*
+ * Todo: convert this to a modal
+ */
 export default class BugAdd extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
     // no auto-binding. This is the recommended way, since it is bound only once per instance.
-    this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   render() {
-    //console.log("Rendering BugAdd")
+    console.log("Rendering BugAdd")
     return (
       <Panel header="Add Bug">
         <form name="bugAdd">

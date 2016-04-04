@@ -13,4 +13,4 @@ This will not exit, and will watch for modified files and re-pack the bundles.
 
 ### Run
 
-`npm start
+`npm start`

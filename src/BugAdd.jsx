@@ -1,8 +1,5 @@
-'use strict'
-
-import React from 'react'
-
-import {Panel,Input,ButtonInput} from  'react-bootstrap'
+import React from 'react';
+import { Panel, Input, ButtonInput } from 'react-bootstrap';
 
 /*
  * Todo: convert this to a modal
@@ -14,8 +11,21 @@ export default class BugAdd extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  handleSubmit(e) {
+    console.log('Got submit:', e);
+    e.preventDefault();
+    // This can't be a stateless since we'll need a ref for inputDomNode
+    // Can't do getInputDOMNode using a ref, because there's no way to set the value
+    // That's why one should prefer controlled forms.
+    const form = document.forms.bugAdd;
+    this.props.addBug({ owner: form.owner.value, title: form.title.value,
+                      status: 'New', priority: 'P1' });
+    // clear the form for the next input
+    form.owner.value = ''; form.title.value = '';
+  }
+
   render() {
-    console.log("Rendering BugAdd")
+    console.log('Rendering BugAdd');
     return (
       <Panel header="Add Bug">
         <form name="bugAdd">
@@ -24,20 +34,10 @@ export default class BugAdd extends React.Component {
           <ButtonInput value="Add" bsStyle="primary" onClick={this.handleSubmit} />
         </form>
       </Panel>
-    )
-  }
-
-  handleSubmit(e) {
-    console.log("Got submit:", e)
-    e.preventDefault()
-    // This can't be a stateless since we'll need a ref for inputDomNode
-    // Can't do getInputDOMNode using a ref, because there's no way to set the value
-    // That's why one should prefer controlled forms.
-    var form = document.forms.bugAdd
-    this.props.addBug({owner: form.owner.value, title: form.title.value,
-                      status: 'New', priority: 'P1'})
-    // clear the form for the next input
-    form.owner.value = ""; form.title.value = "";
+    );
   }
 }
 
+BugAdd.propTypes = {
+  addBug: React.PropTypes.func.isRequired,
+};

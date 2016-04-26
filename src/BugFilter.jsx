@@ -1,5 +1,6 @@
 import React from 'react';
-import { Panel, Grid, Row, Col, Input, ButtonInput } from 'react-bootstrap';
+import { Panel, Grid, Row, Col, FormGroup, ControlLabel, FormControl, Button, ButtonToolbar }
+  from 'react-bootstrap';
 
 export default class BugFilter extends React.Component {
   static get propTypes() {
@@ -53,27 +54,36 @@ export default class BugFilter extends React.Component {
         <Grid fluid>
           <Row>
             <Col xs={12} sm={6} md={4}>
-              <Input type="select" label="Priority" value={this.state.priority}
-                onChange={this.onChangePriority}>
-                <option value="">(Any)</option>
-                <option value="P1">P1</option>
-                <option value="P2">P2</option>
-                <option value="P3">P3</option>
-              </Input>
+              <FormGroup>
+                <ControlLabel>Priority</ControlLabel>
+                <FormControl componentClass="select" value={this.state.priority}
+                  onChange={this.onChangePriority}>
+                  <option value="">(Any)</option>
+                  <option value="P1">P1</option>
+                  <option value="P2">P2</option>
+                  <option value="P3">P3</option>
+                </FormControl>
+              </FormGroup>
             </Col>
             <Col xs={12} sm={6} md={4}>
-              <Input type="select" label="Status" value={this.state.status}
-                onChange={this.onChangeStatus}>
-                <option value="">(Any)</option>
-                <option>New</option>
-                <option>Open</option>
-                <option>Closed</option>
-              </Input>
+              <FormGroup>
+                <ControlLabel>Status</ControlLabel>
+                <FormControl componentClass="select" value={this.state.status}
+                  onChange={this.onChangeStatus}>
+                  <option value="">(Any)</option>
+                  <option>New</option>
+                  <option>Open</option>
+                  <option>Closed</option>
+                </FormControl>
+              </FormGroup>
             </Col>
             <Col xs={12} sm={6} md={4}>
-              <Input label="&nbsp;">
-                <ButtonInput value="Search" bsStyle="primary" onClick={this.submit} />
-              </Input>
+              <FormGroup>
+                <ControlLabel>&nbsp;</ControlLabel>
+                <ButtonToolbar>
+                  <Button type="submit" bsStyle="primary" onClick={this.submit}>Submit</Button>
+                </ButtonToolbar>
+              </FormGroup>
             </Col>
           </Row>
         </Grid>

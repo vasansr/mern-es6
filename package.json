@@ -44,7 +44,7 @@
     "jquery": "^2.2.2",
     "react": "^0.14.8",
     "react-addons-update": "^0.14.8",
-    "react-bootstrap": "^0.28.4",
+    "react-bootstrap": "^0.29.2",
     "react-dom": "^0.14.8",
     "react-router": "^2.0.1",
     "webpack": "^1.12.14"

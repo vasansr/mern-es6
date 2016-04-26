@@ -1,5 +1,5 @@
 import React from 'react';
-import { Panel, Input, ButtonInput } from 'react-bootstrap';
+import { Panel, FormGroup, ControlLabel, FormControl, Button } from 'react-bootstrap';
 
 /*
  * Todo: convert this to a modal
@@ -29,9 +29,15 @@ export default class BugAdd extends React.Component {
     return (
       <Panel header="Add Bug">
         <form name="bugAdd">
-          <Input type="text" name="title" label="Bug Title" />
-          <Input type="text" name="owner" label="Owner" />
-          <ButtonInput value="Add" bsStyle="primary" onClick={this.handleSubmit} />
+          <FormGroup>
+            <ControlLabel>But Title</ControlLabel>
+            <FormControl type="text" name="title" />
+          </FormGroup>
+          <FormGroup>
+            <ControlLabel>Owner</ControlLabel>
+            <FormControl type="text" name="owner" label="Owner" />
+          </FormGroup>
+          <Button bsStyle="primary" onClick={this.handleSubmit}>Add</Button>
         </form>
       </Panel>
     );
